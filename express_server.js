@@ -9,11 +9,6 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-app.get('/urls', (req, res) => {
-  let templateVars = { urls: urlDatabase };
-  res.render("urls_index", templateVars);
-});
-
 app.get("/", (req, res) => {
   res.send('Hello!');
 });
@@ -21,17 +16,6 @@ app.get("/", (req, res) => {
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
-
-// The following is for practicing purposes only
-app.get('/hello', (req, res) => {
-  let templateVars = { greeting: 'Hello World!'};
-  res.render('hello_world', templateVars);
-})
-
-
-
-
-
 
 //If you want to use curl to see the html, just open another terminal. You will need the server running for it to actually work
 app.get("/hello", (req, res) => {
@@ -45,6 +29,16 @@ app.get("/set", (req, res) => {
 
 app.get("/fetch", (req, res) => {
   res.send(`a = ${a}`);
+});
+
+app.get('/urls', (req, res) => {
+  let templateVars = { urls: urlDatabase };
+  res.render("urls_index", templateVars);
+});
+
+app.get('/urls/:shortURL', (req, res) => {
+  let templateVars = { shortURL: req.params.shortURL, longURL: req.params.longURL};
+  res.render('urls_show', templateVars);
 });
 
 app.listen(PORT, () => {
