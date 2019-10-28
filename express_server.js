@@ -21,6 +21,18 @@ app.get("/", (req, res) => {
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
+
+// The following is for practicing purposes only
+app.get('/hello', (req, res) => {
+  let templateVars = { greeting: 'Hello World!'};
+  res.render('hello_world', templateVars);
+})
+
+
+
+
+
+
 //If you want to use curl to see the html, just open another terminal. You will need the server running for it to actually work
 app.get("/hello", (req, res) => {
   res.send('<html><body>Hello <b>World</b></body></html>\n');
