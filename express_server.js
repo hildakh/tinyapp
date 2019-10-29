@@ -17,6 +17,10 @@ app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
+app.get('/urls/new', (req, res) => {
+  res.render('urls_new');
+});
+
 //If you want to use curl to see the html, just open another terminal. You will need the server running for it to actually work
 app.get("/hello", (req, res) => {
   res.send('<html><body>Hello <b>World</b></body></html>\n');
