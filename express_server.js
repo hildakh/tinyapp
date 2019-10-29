@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 8080;  //default port apparently 
+const PORT = 8080;  //default port apparently
 
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
@@ -27,9 +27,10 @@ app.get("/set", (req, res) => {
   res.send(`a = ${a}`);
 });
 
-app.get("/fetch", (req, res) => {
-  res.send(`a = ${a}`);
-});
+//This one below was to show that variables inside requests are not accessible from other requests
+// app.get("/fetch", (req, res) => {
+//   res.send(`a = ${a}`);
+// });
 
 app.get('/urls', (req, res) => {
   let templateVars = { urls: urlDatabase };
