@@ -56,6 +56,12 @@ app.get('/urls/:shortURL', (req, res) => {
   res.render('urls_show', templateVars);
 });
 
+app.get('/u/:shortURL', (req, res) => {
+  // // urlDatabase[shortURL] = req.body.longURL;
+  // const longURL = req.body.longURL;
+  // res.redirect(longURL);
+});
+//Do not need the following anymore as we used a different post above
 // app.post("/urls", (req, res) => {
 //   console.log(req.body);  // Log the POST request body to the console
 //   res.send("Ok");         // Respond with 'Ok' (we will replace this)
