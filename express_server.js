@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 8080;  //default port apparently
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
@@ -45,8 +45,8 @@ app.get('/urls', (req, res) => {
 
 app.post('/urls', (req, res) => {
   let longUrl = req.body.longURL;
-  if(!longUrl.includes('http')) {     //making sure that the address includes http at the beginning 
-    longUrl  = 'http://' + longUrl; 
+  if (!longUrl.includes('http')) {     //making sure that the address includes http at the beginning 
+    longUrl = 'http://' + longUrl;
   }
   let shortURL = generateRandomString();
   urlDatabase[shortURL] = longUrl;
@@ -55,7 +55,7 @@ app.post('/urls', (req, res) => {
 });
 
 app.get('/urls/:shortURL', (req, res) => {
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL]};
+  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render('urls_show', templateVars);
 });
 
@@ -67,7 +67,18 @@ app.get('/u/:shortURL', (req, res) => {
 });
 
 app.post('/urls/:shortURL/delete', (req, res) => {
-  delete urlDatabase[req.params.shortURL];      
+  delete urlDatabase[req.params.shortURL];
+  res.redirect('/urls');
+});
+
+app.post('/urls/:shortURL/edit', (req, res) => {
+  console.log(urlDatabase);
+  const shortURL = req.params.shortURL;
+  let longURL = req.body.url;
+  if (!longURL.includes('http')) {     //making sure that the address includes http at the beginning 
+    longURL = 'http://' + longURL;
+  }
+  urlDatabase[shortURL] = longURL;
   res.redirect('/urls');
 });
 
