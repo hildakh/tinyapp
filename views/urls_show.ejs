@@ -7,12 +7,16 @@
   </head>
   
   <body>
+      <header>
+          <% include ../views/partials/_header %>
+        </header>
     <div class="card text-center">
         <div class="card-header"></div>
         <div class="card-body">
           <h5 class="card-title">TinyURL for: <%= longURL %></h5>
-          <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>  
-          <!-- skipped the part pn including alink for creating a new url-->
+          <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p> 
+          <!-- skipped the part on including a link for creating a new url-->
+
         </div>
       <div class="card-footer text-muted"></div>
     </div>
