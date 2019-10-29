@@ -31,9 +31,12 @@
           <td><%= url %></td>
           <td><%= urls[url] %>  </td>
          <td> <form method="POST" action="/urls/<%= url %>/delete">     <!-- The code from compass was only for one short url. The one we have added as url will extend to all short urls created-->
-          <button type="submit">Delete</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
         </form>
          </td>
+         <td><form method="POST" action="/urls/<%= url %>/edit"> <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+      </td>
        </tr>
     <% } %>
  </tbody>
