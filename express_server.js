@@ -44,11 +44,14 @@ app.get('/urls', (req, res) => {
 });
 
 app.post('/urls', (req, res) => {
-  let templateVars = { urls: urlDatabase };
- 
+  let longUrl = req.body.longURL;
+  if(!longUrl.includes('http')) {     //making sure that the address includes http at the beginning 
+    longUrl  = 'http://' + longUrl; 
+  }
   let shortURL = generateRandomString();
-  urlDatabase[shortURL] = req.body.longURL;
-  res.redirect(`/urls/:${shortURL}`);
+  urlDatabase[shortURL] = longUrl;
+  // console.log(urlDatabase);
+  res.redirect(`/urls/${shortURL}`);
 });
 
 app.get('/urls/:shortURL', (req, res) => {
@@ -57,10 +60,17 @@ app.get('/urls/:shortURL', (req, res) => {
 });
 
 app.get('/u/:shortURL', (req, res) => {
-  // // urlDatabase[shortURL] = req.body.longURL;
-  // const longURL = req.body.longURL;
-  // res.redirect(longURL);
+  const longURL = urlDatabase[req.params.shortURL];
+  // console.log(longURL);
+  // console.log(req.params.shortURL);
+  res.redirect(longURL);
 });
+
+app.post('/urls/:shortURL/delete', (req, res) => {
+  delete urlDatabase[req.params.shortURL]; 
+  res.redirect('/urls');
+});
+
 //Do not need the following anymore as we used a different post above
 // app.post("/urls", (req, res) => {
 //   console.log(req.body);  // Log the POST request body to the console
