@@ -5,8 +5,20 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
+
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
