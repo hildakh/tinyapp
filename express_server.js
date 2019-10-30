@@ -72,13 +72,20 @@ app.post('/urls/:shortURL/delete', (req, res) => {
 });
 
 app.post('/urls/:shortURL/edit', (req, res) => {
-  console.log(urlDatabase);
+  // console.log(urlDatabase);      //it was to check if the new longurl was added to the database
   const shortURL = req.params.shortURL;
   let longURL = req.body.url;
   if (!longURL.includes('http')) {     //making sure that the address includes http at the beginning 
     longURL = 'http://' + longURL;
   }
   urlDatabase[shortURL] = longURL;
+  res.redirect('/urls');
+});
+
+app.post('/urls/login', (req, res) => {
+  console.log(req.body);
+  let username = req.body.username;
+  res.cookie('username', username);
   res.redirect('/urls');
 });
 
