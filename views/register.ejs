@@ -10,13 +10,26 @@
 
 <body>
   <header>
-    <% include ../views/register %>
+    <!--  <% include ../views/register %>  -->
   </header>
   <div class="card text-center">
-      <div class="card-header"></div>
-      <div class="card-body">
-        </div>
-        </div>
+    <div class="card-header"></div>
+    <div class="card-body">
+    </div>
+  </div>
+  <div style="font-family: cursive;">
+    <form method="POST" action="/register">
+      <label for="email"> Email Address:
+        <input type="email" name="email">
+      </label>
+
+      <label for="password">Password
+        <input type="password" name="password">
+      </label>
+    </form>
+  </div>
+
 
 </body>
+
 </html>
