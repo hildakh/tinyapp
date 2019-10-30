@@ -1,18 +1,28 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-success">
-      <a class="navbar-brand" href="/urls">TinyApp</a>
+      <a class="navbar-brand" href="/urls" style="font-family: cursive;">TinyApp</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/urls">My URLs</a>
-          <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+        <div class="navbar-nav" style="display: flex; flex: 1; align-items: center; justify-content: space-between;">
+        <a class="nav-item nav-link" href="/urls" style="font-family: cursive;">My URLs</a>
+        <a class="nav-item nav-link" href="/urls/new" style="font-family: cursive;">Create New URL</a>
+        <div>
+          <span><%= username %></span>
+          <% if(username) {%>
+            <form method="POST" action="/urls/logout"> 
+              <button type="submit">Logout</button> 
+            </form>
+            <% } else { %>
           <form method="POST" action="/urls/login">
-          <label for=""></label>
-          <input type="text" name="username">
-          <button type="submit">Submit</button>
+            <label for="" style="font-family: cursive;">Enter username</label>
+            <input type="text" name="username">
+            <button type="button" class="btn btn-info" style="font-family: cursive;">Login</button>
           </form>
+          <% } %>
+
+        </div>
         </div>
       </div>
     </nav>
