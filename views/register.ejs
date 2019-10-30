@@ -9,9 +9,9 @@
 </head>
 
 <body>
-  <header>
-    <!--  <% include ../views/register %>  -->
-  </header>
+    <% include partials/_header %>
+
+ 
   <div class="card text-center">
     <div class="card-header"></div>
     <div class="card-body">
@@ -20,12 +20,14 @@
   <div style="font-family: cursive;">
     <form method="POST" action="/register">
       <label for="email"> Email Address:
-        <input type="email" name="email">
+        <input type="email" id="email" name="email" required>
       </label>
 
-      <label for="password">Password
-        <input type="password" name="password">
+      <label for="password">Password      <!--The data in the for and id should match -->
+        <input type="password" id="password" name="password" required>
       </label>
+
+      <button type="submit" class="btn btn-info" style="font-family: cursive;" >Signup</button>  <!-- the button type should be submit-->
     </form>
   </div>
 
