@@ -96,6 +96,7 @@ app.post('/urls/login', (req, res) => {
 });
 
 app.post('/urls/logout', (req, res) => {
+  
   // res.clearCookie('username');
   res.cookie('username', '');
   res.redirect('/urls');
@@ -108,7 +109,18 @@ app.post('/urls/logout', (req, res) => {
 // });
 
 app.get('/register', (req, res) => {
-  res.render('register');
+  let templateVars = {
+    username: req.cookies["username"],
+  };      //needed bcz of the header
+  res.render('register', templateVars);
+
+});
+
+app.post('/register', (req, res) => {
+  var email = req.body.email;
+  var password = req.body.password;
+  console.log(email, password);
+  res.redirect('/urls');
   // res.redirect('urls');
 })
 
