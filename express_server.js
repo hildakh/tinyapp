@@ -100,11 +100,17 @@ app.post('/urls/logout', (req, res) => {
   res.cookie('username', '');
   res.redirect('/urls');
 })
+
 //Do not need the following anymore as we used a different post above
 // app.post("/urls", (req, res) => {
 //   console.log(req.body);  // Log the POST request body to the console
 //   res.send("Ok");         // Respond with 'Ok' (we will replace this)
 // });
+
+app.get('/register', (req, res) => {
+  res.render('register');
+  // res.redirect('urls');
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
