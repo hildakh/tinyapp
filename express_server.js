@@ -97,6 +97,7 @@ app.post('/urls/login', (req, res) => {
 
 app.post('/urls/logout', (req, res) => {
   res.clearCookie('username');
+  //res.cookie('username', '');
   res.redirect('/urls');
 })
 //Do not need the following anymore as we used a different post above
