@@ -9,8 +9,9 @@
         <a class="nav-item nav-link" href="/urls" style="font-family: cursive;">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new" style="font-family: cursive;">Create New URL</a>
         <div>
-          <span  style="font-family: cursive;"><%= username %></span>
-          <% if(username) {%>
+          
+          <% if(user) {%>
+            <span  style="font-family: cursive;"><%= user.email %></span>
             <form method="POST" action="/urls/logout"> 
               <button type="submit"  style="font-family: cursive;">Logout</button> 
             </form>
