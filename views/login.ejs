@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <% include partials/_header %>
 
  
   <div class="card text-center">
@@ -18,7 +17,7 @@
     </div>
   </div>
   <div style="font-family: cursive;">
-    <form method="GET" action="/login">
+    <form method="POST" action="/login">
       <label for="email"> Email Address:
         <input type="email" id="email" name="email" required>
       </label>
