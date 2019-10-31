@@ -4,8 +4,9 @@ const PORT = 8080;  //default port apparently
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser());       //not needed as cookie-session was installed
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
+
 
 const users = {
   "userRandomID": {
@@ -16,7 +17,7 @@ const users = {
   "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
-    password: "dishwasher-funk"
+    password: "123"
   }
 }
 
@@ -24,6 +25,8 @@ const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+
+// GET ROUTES
 
 app.get("/", (req, res) => {
   res.send('Hello!');
@@ -51,20 +54,43 @@ app.get("/set", (req, res) => {
   res.send(`a = ${a}`);
 });
 
-//This one below was to show that variables inside requests are not accessible from other requests
-// app.get("/fetch", (req, res) => {
-//   res.send(`a = ${a}`);
-// });
-
 app.get('/urls', (req, res) => {
   let user = undefined;
-  if(req.cookies['userId']) {
-  const userId = req.cookies["userId"]
-  user = users[userId];
-  } 
+  if (req.cookies['userId']) {
+    const userId = req.cookies["userId"]
+    user = users[userId];
+  }
   let templateVars = { urls: urlDatabase, 'user': user };
   res.render("urls_index", templateVars);
 });
+
+app.get('/u/:shortURL', (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL];
+  // console.log(longURL);
+  // console.log(req.params.shortURL);
+  res.redirect(longURL);
+});
+
+app.get('/urls/:shortURL', (req, res) => {
+  const userId = req.cookies["userId"]
+  const user = users[userId];
+  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], 'user': user };
+  res.render('urls_show', templateVars);
+});
+
+app.get('/register', (req, res) => {  //check why the header and templatevars are needed
+  // const userId = req.cookies["userId"]
+  // const user = users[userId];
+  // let templateVars = { 'user': user };
+  //needed bcz of the header
+  res.render('register')//, templateVars);
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+// POST ROUTES
 
 app.post('/urls', (req, res) => {
   let longUrl = req.body.longURL;
@@ -77,19 +103,9 @@ app.post('/urls', (req, res) => {
   res.redirect(`/urls/${shortURL}`);
 });
 
-app.get('/urls/:shortURL', (req, res) => {
-  const userId = req.cookies["userId"]
-  const user = users[userId];
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], 'user': user };
-  res.render('urls_show', templateVars);
-});
 
-app.get('/u/:shortURL', (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
-  // console.log(longURL);
-  // console.log(req.params.shortURL);
-  res.redirect(longURL);
-});
+
+
 
 app.post('/urls/:shortURL/delete', (req, res) => {
   delete urlDatabase[req.params.shortURL];
@@ -107,66 +123,45 @@ app.post('/urls/:shortURL/edit', (req, res) => {
   res.redirect('/urls');
 });
 
-app.post('/urls/login', (req, res) => {
-  // console.log(req.body);
-  const { email, password } = req.body;
-  for (const userId in users) {
-    const user = users[userId];
-    if (user.email === email) {
-      if (user.password === password) {
-        res.cookie('userId', userId);
-        res.redirect('/urls');
-        // req.session.userId = userId;
-        // res.redirect('/');
+function authenticateUser(email, password){
+  for(let user in users){
+      if(users[user].email===email && users[user].password === password){
+          return users[user];
       }
-      res.send('error');
-    }
-    res.send(`User doesn't exist. Please sign up.`);
   }
+}
+
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  let user = authenticateUser(email, password);
+  if (user) {
+    res.cookie('userId', users.id);
+    res.redirect('/urls');
+    } else {
+      res.send(`User doesn't exist. Please sign up.`);
+    }
 });
 
 app.post('/urls/logout', (req, res) => {
-
   // res.clearCookie('userId');
   res.cookie('userId', '');
   res.redirect('/urls');
 })
 
-//Do not need the following anymore as we used a different post above
-// app.post("/urls", (req, res) => {
-//   console.log(req.body);  // Log the POST request body to the console
-//   res.send("Ok");         // Respond with 'Ok' (we will replace this)
-// });
-
-app.get('/register', (req, res) => {  //check why te header and templatevars are needed
-  const userId = req.cookies["userId"]
-  const user = users[userId];
-  let templateVars = { 'user': user };
-  //needed bcz of the header
-  res.render('register', templateVars);
-
-});
-
 app.post('/register', (req, res) => {
   let randomId = generateRandomString();
-  var email = req.body.email;
-  var password = req.body.password;
+  const { email, password } = req.body;
   users[randomId] = { id: randomId, email: email, password: password }
   // console.log(email, password);      //users.randomId won't work as that key does not exist.
   // console.log(users);
-  if (email.length < 1 || password < 1) {
+  if (email.length < 1 || password < 1) { //Don't need the error actually coz the email and pass input is marked as required in the form
     res.send(404);
   }
   res.redirect('/urls');
   // res.redirect('urls');
 })
 
-app.get ('/login', (req, res) => {
-  const userId = req.cookies["userId"]
-  const user = users[userId];
-  let templateVars = { 'user': user };
-  res.render('login', templateVars);
-})
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
