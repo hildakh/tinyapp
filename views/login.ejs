@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <title>URL - TinyApp Example</title>
+</head>
+
+<body>
+    <% include partials/_header %>
+
+ 
+  <div class="card text-center">
+    <div class="card-header"></div>
+    <div class="card-body">
+    </div>
+  </div>
+  <div style="font-family: cursive;">
+    <form method="GET" action="/login">
+      <label for="email"> Email Address:
+        <input type="email" id="email" name="email" required>
+      </label>
+
+      <label for="password">Password      <!--The data in the for and id should match -->
+        <input type="password" id="password" name="password" required>
+      </label>
+
+      <button type="submit" class="btn btn-info" style="font-family: cursive;" >Log In</button>  <!-- the button type should be submit-->
+    </form>
+  </div>
+
+
+</body>
+
+</html>
