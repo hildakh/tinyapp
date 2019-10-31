@@ -8,22 +8,7 @@
         <div class="navbar-nav" style="display: flex; flex: 1; align-items: center; justify-content: space-between;">
         <a class="nav-item nav-link" href="/urls" style="font-family: cursive;">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new" style="font-family: cursive;">Create New URL</a>
-        <div>
-          
-          <% if(user) {%>
-            <span  style="font-family: cursive;"><%= user.email %></span>
-            <form method="POST" action="/urls/logout"> 
-              <button type="submit"  style="font-family: cursive;">Logout</button> 
-            </form>
-            <% } else { %>
-          <form method="POST" action="/urls/login">
-            <label for="" style="font-family: cursive;">Enter username</label>
-            <input type="text" name="username">
-            <button type="button" class="btn btn-info" style="font-family: cursive;">Login</button>
-          </form>
-          <% } %>
 
-        </div>
         </div>
       </div>
     </nav>
