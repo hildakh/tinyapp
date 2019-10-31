@@ -9,26 +9,28 @@
 </head>
 
 <body>
-    <% include partials/_header %> 
-  <div class="card text-center">
-    <div class="card-header"></div>
-    <div class="card-body">
-    </div>
+  <% include partials/_header %>
+
+  <p style="font-size: 2em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Create a New Account</p>
+
   </div>
+  
   <div style="font-family: cursive;">
-    <form method="POST" action="/register">
-      <label for="email"> Email Address:
-        <input type="email" id="email" name="email" required>
-      </label>
 
-      <label for="password">Password      <!--The data in the for and id should match -->
-        <input type="password" id="password" name="password" required>
+    <form method="POST" action="/register" class="card text-center">
+      <label for="email" style="font-size: 1.3em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Email Address
+        <input type="email" id="email" name="email" required style="margin-left: 1em;">
       </label>
-
-      <button type="submit" class="btn btn-info" style="font-family: cursive;" >Signup</button>  <!-- the button type should be submit-->
+      <label for="password" style="font-size: 1.3em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Password
+        <!--The data in the for and id should match -->
+        <input type="password" id="password" name="password" required style="margin-left: 3em;">
+      </label>
     </form>
-  </div>
 
+  <button type="submit" class="btn btn-info" style="font-family: cursive; margin-left: 9em; font-size: 1.5em; margin-top: 1em">Signup</button>
+  <!-- the button type should be submit-->
+
+</div>
 
 </body>
 
