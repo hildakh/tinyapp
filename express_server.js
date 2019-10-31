@@ -2,9 +2,12 @@ const express = require('express');
 const app = express();
 const PORT = 8080;  //default port apparently
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());       //not needed as cookie-session was installed
+var cookieSession = require('cookie-session')
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1'],
+}))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
 
@@ -28,7 +31,7 @@ const urlDatabase = {
 
 // GET ROUTES
 
-app.get("/", (req, res) => {
+app.get("/home", (req, res) => {
   res.send('Hello!');
 });
 
@@ -37,14 +40,12 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
-  const userId = req.cookies["userId"]
+  const userId = req.session.userId;
   const user = users[userId];
-  let templateVars = { 'user': user };
+  let templateVars = { user };
   res.render('urls_new', templateVars);
-
 });
 
-//If you want to use curl to see the html, just open another terminal. You will need the server running for it to actually work
 app.get("/hello", (req, res) => {
   res.send('<html><body>Hello <b>World</b></body></html>\n');
 });
@@ -56,8 +57,8 @@ app.get("/set", (req, res) => {
 
 app.get('/urls', (req, res) => {
   let user = undefined;
-  if (req.cookies['userId']) {
-    const userId = req.cookies["userId"]
+  const { userId } = req.session;
+  if (userId) {
     user = users[userId];
   }
   let templateVars = { urls: urlDatabase, 'user': user };
@@ -66,28 +67,28 @@ app.get('/urls', (req, res) => {
 
 app.get('/u/:shortURL', (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
-  // console.log(longURL);
-  // console.log(req.params.shortURL);
   res.redirect(longURL);
 });
 
 app.get('/urls/:shortURL', (req, res) => {
-  const userId = req.cookies["userId"]
+  const userId = req.session.userId;
   const user = users[userId];
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], 'user': user };
   res.render('urls_show', templateVars);
 });
 
-app.get('/register', (req, res) => {  //check why the header and templatevars are needed
-  // const userId = req.cookies["userId"]
-  // const user = users[userId];
-  // let templateVars = { 'user': user };
-  //needed bcz of the header
-  res.render('register')//, templateVars);
+app.get('/register', (req, res) => {
+  const userId = req.session.userId;
+  const user = users[userId];
+  let templateVars = { user };
+  res.render('register', templateVars)
 });
 
 app.get('/login', (req, res) => {
-  res.render('login');
+  const userId = req.session.userId;
+  const user = users[userId];
+  let templateVars = { user };
+  res.render('login', templateVars);
 });
 
 // POST ROUTES
@@ -99,12 +100,8 @@ app.post('/urls', (req, res) => {
   }
   let shortURL = generateRandomString();
   urlDatabase[shortURL] = longUrl;
-  // console.log(urlDatabase);
   res.redirect(`/urls/${shortURL}`);
 });
-
-
-
 
 
 app.post('/urls/:shortURL/delete', (req, res) => {
@@ -123,11 +120,11 @@ app.post('/urls/:shortURL/edit', (req, res) => {
   res.redirect('/urls');
 });
 
-function authenticateUser(email, password){
-  for(let user in users){
-      if(users[user].email===email && users[user].password === password){
-          return users[user];
-      }
+function authenticateUser(email, password) {
+  for (let user in users) {
+    if (users[user].email === email && users[user].password === password) {
+      return users[user];
+    }
   }
 }
 
@@ -135,30 +132,28 @@ app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user = authenticateUser(email, password);
   if (user) {
-    res.cookie('userId', users.id);
+    req.session.userId = user.id;
     res.redirect('/urls');
-    } else {
-      res.send(`User doesn't exist. Please sign up.`);
-    }
+  } else {
+    res.send(403);
+  }
 });
 
 app.post('/urls/logout', (req, res) => {
-  // res.clearCookie('userId');
-  res.cookie('userId', '');
+  req.session = null;
   res.redirect('/urls');
+  // res.cookie('userId', '');
+  // res.redirect('/urls');
 })
 
 app.post('/register', (req, res) => {
   let randomId = generateRandomString();
   const { email, password } = req.body;
   users[randomId] = { id: randomId, email: email, password: password }
-  // console.log(email, password);      //users.randomId won't work as that key does not exist.
-  // console.log(users);
-  if (email.length < 1 || password < 1) { //Don't need the error actually coz the email and pass input is marked as required in the form
+  if (email.length < 1 || password < 1) {
     res.send(404);
   }
   res.redirect('/urls');
-  // res.redirect('urls');
 })
 
 
