@@ -12,21 +12,23 @@
 
     <% include partials/_header %>
   <div class="card text-center">
-    <div class="card-header"></div>
-    <div class="card-body">
-    </div>
+  
+ 
+        <p style="font-size: 2em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Login</p>
+  
   </div>
   <div style="font-family: cursive;">
+  
     <form method="POST" action="/login">
-      <label for="email"> Email Address:
+      <label for="email" style="font-size: 1.3em; margin-left: 0.5em"> Email Address
         <input type="email" id="email" name="email" required>
       </label>
-
-      <label for="password">Password      <!--The data in the for and id should match -->
-        <input type="password" id="password" name="password" required>
+<p>
+      <label for="password" style="font-size: 1.3em; margin-left: 0.5em">Password      <!--The data in the for and id should match -->
+        <input type="password" id="password" name="password" required style="margin-left: 2em;">
       </label>
-
-      <button type="submit" class="btn btn-info" style="font-family: cursive;" >Log In</button>  <!-- the button type should be submit-->
+    </p>
+      <button type="submit" class="btn btn-info" style="font-family: cursive; margin-left: 9em; font-size: 1.5em">Log In</button>  <!-- the button type should be submit-->
     </form>
   </div>
 
