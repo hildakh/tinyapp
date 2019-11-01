@@ -10,6 +10,7 @@ app.use(cookieSession({
 }))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
+let isLogged = false;
 
 const users = {
   "userRandomID": {
@@ -40,10 +41,14 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
-  const userId = req.session.userId;
-  const user = users[userId];
-  let templateVars = { user };
-  res.render('urls_new', templateVars);
+  if (isLogged) {
+    const userId = req.session.userId;
+    const user = users[userId];
+    let templateVars = { user };
+    res.render('urls_new', templateVars);
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.get("/hello", (req, res) => {
@@ -79,24 +84,26 @@ app.get('/urls/:shortURL', (req, res) => {
 
 app.get('/register', (req, res) => {
   const userId = req.session.userId;
-  if(req.session.userId) {
-    res.redirect('/urls');
-  } else {
+  // if(req.session.userId) {
+  //   res.redirect('/urls');
+  // } else {
   const user = users[userId];
   let templateVars = { user };
+  isLogged = true;
   res.render('register', templateVars)
-  }
+  // }
 });
 
 app.get('/login', (req, res) => {
   const userId = req.session.userId;
-  if(req.session.userId) {
-    res.redirect('/urls');
-  } else {
+  // if(req.session.userId) {
+  //   res.redirect('/urls');
+  // } else {
   const user = users[userId];
   let templateVars = { user };
+  isLogged = true;
   res.render('login', templateVars)
-  }
+  // }
 });
 
 // POST ROUTES
@@ -171,12 +178,11 @@ app.post('/register', (req, res) => {
     res.send(404);
     return;
   }
-  if(existingUser(email)) {
+  if (existingUser(email)) {
     res.send('You are already registered. Please log in.');
     return;
   }
   users[randomId] = { id: randomId, email: email, password: password }
-  console.log(randomId, email, password);
   req.session.userId = randomId;
   res.redirect('/urls');
 })
