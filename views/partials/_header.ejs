@@ -11,13 +11,25 @@
         <a class="nav-item nav-link" href="/urls/new" style="font-family: cursive;">Create New URL</a>
 
         <% if (user) { %>
-        <span> <%= user.email %> </span>
-        <a href="/" class="btn btn-info" style="border-color: black">Log Out</a>
+          <span> <%= user.email %> </span>
+          <form action="/logout" method="POST">
+            <button class="btn btn-info" style="border-color: black" type="submit">Log Out</a>
+          </form>
         <% } else { %>
-        <a class="nav-item nav-link btn btn-info" href="/register" style="font-family: cursive; color: aliceblue; border-color: black">Sign
-          Up</a>
-        <a class="nav-item nav-link btn btn-info" href="/login" style="font-family: cursive; color: aliceblue; border-color: black">Log
-          In</a>
+          <a
+            class="nav-item nav-link btn btn-info"
+            href="/register"
+            style="font-family: cursive; color: aliceblue; border-color: black"
+          >
+            Sign Up
+          </a>
+          <a
+            class="nav-item nav-link btn btn-info"
+            href="/login"
+            style="font-family: cursive; color: aliceblue; border-color: black"
+          >
+            Log In
+          </a>
         <%  } %>
 
 
