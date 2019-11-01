@@ -14,23 +14,32 @@
   <p style="font-size: 2em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Create a New Account</p>
 
   </div>
-  
+
   <div style="font-family: cursive;">
 
     <form method="POST" action="/register" class="card text-center">
-      <label for="email" style="font-size: 1.3em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Email Address
+      <label for="email"
+        style="font-size: 1.3em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Email Address
         <input type="email" id="email" name="email" required style="margin-left: 1em;">
       </label>
-      <label for="password" style="font-size: 1.3em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Password
+      <label for="password"
+        style="font-size: 1.3em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Password
         <!--The data in the for and id should match -->
         <input type="password" id="password" name="password" required style="margin-left: 3em;">
       </label>
+
+
+      <button
+        type="submit"
+        class="btn btn-info"
+        style="font-family: cursive; margin-left: 9em; font-size: 1.5em; margin-top: 1em"
+      >
+        Signup
+      </button>
     </form>
+    <!-- the button type should be submit-->
 
-  <button type="submit" class="btn btn-info" style="font-family: cursive; margin-left: 9em; font-size: 1.5em; margin-top: 1em">Signup</button>
-  <!-- the button type should be submit-->
-
-</div>
+  </div>
 
 </body>
 
