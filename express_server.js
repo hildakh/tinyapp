@@ -26,8 +26,8 @@ const users = {
 }
 
 const urlDatabase = {
-  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
-  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
+  b6UTxQ: { longURL: "https://www.tsn.ca", userId: "aJ48lW" },
+  i3BoGr: { longURL: "https://www.google.ca", userId: "aJ48lW" }
 };
 
 // GET ROUTES
@@ -114,9 +114,20 @@ app.post('/urls', (req, res) => {
     longUrl = 'http://' + longUrl;
   }
   let shortURL = generateRandomString();
+  // const userId = req.session.userId;
+  // const user = users[userId];
+  // let templateVars = { user };
   urlDatabase[shortURL] = longUrl;
   res.redirect(`/urls`);
 });
+
+
+// const userId = req.session.userId;
+// // if(req.session.userId) {
+// //   res.redirect('/urls');
+// // } else {
+// const user = users[userId];
+// let templateVars = { user };
 
 
 app.post('/urls/:shortURL/delete', (req, res) => {
@@ -190,7 +201,7 @@ app.post('/register', (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+  console.log(`Example app listening on port ${PORT}, I think?`);
 });
 //Generates a string of six random alphanumeric characters
 function generateRandomString() {
