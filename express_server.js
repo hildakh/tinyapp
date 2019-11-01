@@ -80,9 +80,7 @@ app.get('/urls/:shortURL', (req, res) => {
 app.get('/register', (req, res) => {
   const userId = req.session.userId;
   if(req.session.userId) {
-    console.log("in register route")
     res.redirect('/urls');
-
   } else {
   const user = users[userId];
   let templateVars = { user };
@@ -92,9 +90,13 @@ app.get('/register', (req, res) => {
 
 app.get('/login', (req, res) => {
   const userId = req.session.userId;
+  if(req.session.userId) {
+    res.redirect('/urls');
+  } else {
   const user = users[userId];
   let templateVars = { user };
-  res.render('login', templateVars);
+  res.render('login', templateVars)
+  }
 });
 
 // POST ROUTES
