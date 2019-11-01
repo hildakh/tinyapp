@@ -100,7 +100,7 @@ app.post('/urls', (req, res) => {
   }
   let shortURL = generateRandomString();
   urlDatabase[shortURL] = longUrl;
-  res.redirect(`/urls/${shortURL}`);
+  res.redirect(`/urls`);
 });
 
 
@@ -128,6 +128,16 @@ function authenticateUser(email, password) {
   }
 }
 
+function existingUser(email) {
+  for (let user in users) {
+    if (users[user].email === email)
+      return true;
+  }
+  return false;
+}
+console.log(existingUser('12345@yahoo.com'));
+console.log(existingUser('user2@example.com'));
+
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user = authenticateUser(email, password);
@@ -149,11 +159,17 @@ app.post('/logout', (req, res) => {
 app.post('/register', (req, res) => {
   let randomId = generateRandomString();
   const { email, password } = req.body;
-  users[randomId] = { id: randomId, email: email, password: password }
   if (email.length < 1 || password < 1) {
     res.send(404);
+    return;
   }
+  if(existingUser(email)) {
+    res.send('You are already registered. Please log in.');
+    return;
+  }
+  users[randomId] = { id: randomId, email: email, password: password }
   console.log(randomId, email, password);
+  req.session.userId = randomId;
   res.redirect('/urls');
 })
 
