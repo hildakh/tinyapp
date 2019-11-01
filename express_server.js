@@ -31,7 +31,7 @@ const urlDatabase = {
 
 // GET ROUTES
 
-app.get("/home", (req, res) => {
+app.get("/", (req, res) => {
   res.send('Hello!');
 });
 
@@ -139,9 +139,9 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.post('/urls/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   req.session = null;
-  res.redirect('/urls');
+  res.redirect('/login');
   // res.cookie('userId', '');
   // res.redirect('/urls');
 })
@@ -153,6 +153,7 @@ app.post('/register', (req, res) => {
   if (email.length < 1 || password < 1) {
     res.send(404);
   }
+  console.log(randomId, email, password);
   res.redirect('/urls');
 })
 
