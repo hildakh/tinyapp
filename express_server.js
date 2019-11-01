@@ -79,9 +79,15 @@ app.get('/urls/:shortURL', (req, res) => {
 
 app.get('/register', (req, res) => {
   const userId = req.session.userId;
+  if(req.session.userId) {
+    console.log("in register route")
+    res.redirect('/urls');
+
+  } else {
   const user = users[userId];
   let templateVars = { user };
   res.render('register', templateVars)
+  }
 });
 
 app.get('/login', (req, res) => {
