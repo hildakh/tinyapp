@@ -10,6 +10,7 @@ app.use(cookieSession({
 }))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
+
 const users = {
   "userRandomID": {
     id: "userRandomID",
@@ -108,7 +109,7 @@ app.post('/urls', (req, res) => {
     longUrl = 'http://' + longUrl;
   }
   let shortURL = generateRandomString();
-  urlDatabase[shortURL] = longUrl;
+  urlDatabase[shortURL] = {longURL: longUrl, userId: req.session.userId};
   res.redirect(`/urls`);
 });
 
