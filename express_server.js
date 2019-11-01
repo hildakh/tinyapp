@@ -10,6 +10,13 @@ app.use(cookieSession({
 }))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
+const getLoggedInUser = function (req, res) {
+ return users[req.session.userId];
+}
+
+const urlsForUser = function (id) {
+  ;
+}
 
 const users = {
   "userRandomID": {
@@ -40,7 +47,7 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
-  const user = users[req.session.userId];
+  const user = getLoggedInUser(req);
   if (user) {
     let templateVars = { user };
     res.render('urls_new', templateVars);
@@ -59,13 +66,13 @@ app.get("/set", (req, res) => {
 });
 
 app.get('/urls', (req, res) => {
-  let user = undefined;
-  const { userId } = req.session;
-  if (userId) {
-    user = users[userId];
+  const user = getLoggedInUser(req);
+  if (user) {
+    let templateVars = { urls: urlDatabase, user: user };
+    res.render('urls_index', templateVars);
+  } else {
+    res.redirect('/login');
   }
-  let templateVars = { urls: urlDatabase, 'user': user };
-  res.render("urls_index", templateVars);
 });
 
 app.get('/u/:shortURL', (req, res) => {
@@ -82,7 +89,7 @@ app.get('/urls/:shortURL', (req, res) => {
 
 app.get('/register', (req, res) => {
   const user = users[req.session.userId];
-  if(user) {
+  if (user) {
     res.redirect('/urls');
   } else {
     let templateVars = { user };
@@ -93,7 +100,7 @@ app.get('/register', (req, res) => {
 app.get('/login', (req, res) => {
   const userId = req.session.userId;
   const user = users[userId];
-  if(user) {
+  if (user) {
     res.redirect('/urls');
   } else {
     let templateVars = { user };
@@ -109,7 +116,7 @@ app.post('/urls', (req, res) => {
     longUrl = 'http://' + longUrl;
   }
   let shortURL = generateRandomString();
-  urlDatabase[shortURL] = {longURL: longUrl, userId: req.session.userId};
+  urlDatabase[shortURL] = { longURL: longUrl, userId: req.session.userId };
   res.redirect(`/urls`);
 });
 
