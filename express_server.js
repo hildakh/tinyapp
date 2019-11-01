@@ -10,16 +10,14 @@ app.use(cookieSession({
 }))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
-let isLogged = false;
-
 const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
-  "user2RandomID": {
-    id: "user2RandomID",
+  "aJ48lW": {
+    id: "aJ48lW",
     email: "user2@example.com",
     password: "123"
   }
@@ -41,9 +39,8 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
-  if (isLogged) {
-    const userId = req.session.userId;
-    const user = users[userId];
+  const user = users[req.session.userId];
+  if (user) {
     let templateVars = { user };
     res.render('urls_new', templateVars);
   } else {
@@ -71,39 +68,36 @@ app.get('/urls', (req, res) => {
 });
 
 app.get('/u/:shortURL', (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
+  const longURL = urlDatabase[req.params.shortURL].longURL;
   res.redirect(longURL);
 });
 
 app.get('/urls/:shortURL', (req, res) => {
   const userId = req.session.userId;
   const user = users[userId];
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], 'user': user };
+  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: user };
   res.render('urls_show', templateVars);
 });
 
 app.get('/register', (req, res) => {
-  const userId = req.session.userId;
-  // if(req.session.userId) {
-  //   res.redirect('/urls');
-  // } else {
-  const user = users[userId];
-  let templateVars = { user };
-  isLogged = true;
-  res.render('register', templateVars)
-  // }
+  const user = users[req.session.userId];
+  if(user) {
+    res.redirect('/urls');
+  } else {
+    let templateVars = { user };
+    res.render('register', templateVars)
+  }
 });
 
 app.get('/login', (req, res) => {
   const userId = req.session.userId;
-  // if(req.session.userId) {
-  //   res.redirect('/urls');
-  // } else {
   const user = users[userId];
-  let templateVars = { user };
-  isLogged = true;
-  res.render('login', templateVars)
-  // }
+  if(user) {
+    res.redirect('/urls');
+  } else {
+    let templateVars = { user };
+    res.render('login', templateVars)
+  }
 });
 
 // POST ROUTES
@@ -114,20 +108,9 @@ app.post('/urls', (req, res) => {
     longUrl = 'http://' + longUrl;
   }
   let shortURL = generateRandomString();
-  // const userId = req.session.userId;
-  // const user = users[userId];
-  // let templateVars = { user };
   urlDatabase[shortURL] = longUrl;
   res.redirect(`/urls`);
 });
-
-
-// const userId = req.session.userId;
-// // if(req.session.userId) {
-// //   res.redirect('/urls');
-// // } else {
-// const user = users[userId];
-// let templateVars = { user };
 
 
 app.post('/urls/:shortURL/delete', (req, res) => {
@@ -142,7 +125,7 @@ app.post('/urls/:shortURL/edit', (req, res) => {
   if (!longURL.includes('http')) {     //making sure that the address includes http at the beginning 
     longURL = 'http://' + longURL;
   }
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL].longURL = longURL;
   res.redirect('/urls');
 });
 
