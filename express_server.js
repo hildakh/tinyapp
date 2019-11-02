@@ -3,8 +3,6 @@ const app = express();
 const PORT = 8080;  //default port apparently
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
 var cookieSession = require('cookie-session')
 app.use(cookieSession({
@@ -13,23 +11,20 @@ app.use(cookieSession({
 }))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
-const password = "purple-monkey-dinosaur"; // found in the req.params object
-const hashedPassword = bcrypt.hashSync(password, 10);
-
 const getLoggedInUser = function (req, res) {
- return users[req.session.userId];
+  return users[req.session.userId];
 }
 
 const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
   },
   "aJ48lW": {
     id: "aJ48lW",
     email: "user2@example.com",
-    password: "123"
+    password: bcrypt.hashSync("123", 10)
   }
 }
 
@@ -142,6 +137,8 @@ app.post('/urls/:shortURL/edit', (req, res) => {
 function authenticateUser(email, password) {
   for (let user in users) {
     if (users[user].email === email && users[user].password === password) {
+      // if (users[user].email === email && bcrypt.compareSync(password, users.user.password)) {
+      //   console.log(user);
       return users[user];
     }
   }
@@ -154,8 +151,8 @@ function existingUser(email) {
   }
   return false;
 }
-console.log(existingUser('12345@yahoo.com'));
-console.log(existingUser('user2@example.com'));
+// console.log(existingUser('12345@yahoo.com'));
+// console.log(existingUser('user2@example.com'));
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -178,6 +175,8 @@ app.post('/logout', (req, res) => {
 app.post('/register', (req, res) => {
   let randomId = generateRandomString();
   const { email, password } = req.body;
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  // console.log(hashedPassword);
   if (email.length < 1 || password < 1) {
     res.send(404);
     return;
@@ -186,7 +185,7 @@ app.post('/register', (req, res) => {
     res.send('You are already registered. Please log in.');
     return;
   }
-  users[randomId] = { id: randomId, email: email, password: password }
+  users[randomId] = { id: randomId, email: email, password: hashedPassword }; //bcrypt.hashSync(password, 10) };
   req.session.userId = randomId;
   res.redirect('/urls');
 })
