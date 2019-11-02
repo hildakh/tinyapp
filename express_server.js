@@ -14,10 +14,6 @@ const getLoggedInUser = function (req, res) {
  return users[req.session.userId];
 }
 
-const urlsForUser = function (id) {
-  ;
-}
-
 const users = {
   "userRandomID": {
     id: "userRandomID",
