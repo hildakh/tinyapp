@@ -136,9 +136,9 @@ app.post('/urls/:shortURL/edit', (req, res) => {
 
 function authenticateUser(email, password) {
   for (let user in users) {
-    if (users[user].email === email && users[user].password === password) {
-      // if (users[user].email === email && bcrypt.compareSync(password, users.user.password)) {
-      //   console.log(user);
+    // if (users[user].email === email && users[user].password === password) {
+    if (users[user].email === email && bcrypt.compareSync(password, users[user].password)) {
+      console.log(user);
       return users[user];
     }
   }
@@ -193,7 +193,7 @@ app.post('/register', (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}, I think?`);
+  console.log(`Example app listening on port ${PORT}, probably?`);
 });
 //Generates a string of six random alphanumeric characters
 function generateRandomString() {
