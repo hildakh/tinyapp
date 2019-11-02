@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const PORT = 8080;  //default port apparently
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 var cookieSession = require('cookie-session')
 app.use(cookieSession({
@@ -9,6 +12,9 @@ app.use(cookieSession({
   keys: ['key1'],
 }))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
+
+const password = "purple-monkey-dinosaur"; // found in the req.params object
+const hashedPassword = bcrypt.hashSync(password, 10);
 
 const getLoggedInUser = function (req, res) {
  return users[req.session.userId];
