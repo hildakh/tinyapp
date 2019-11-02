@@ -1,19 +1,20 @@
+const getLoggedInUser = require('./helpers');
+const urlsForUser = require('./helpers');
+const authenticateUser = require('./helpers');
+const existingUser = require('./helpers');
+const generateRandomString = require('./helpers');
 const express = require('express');
 const app = express();
 const PORT = 8080;  //default port apparently
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 app.use(bodyParser.urlencoded({ extended: true }));
-var cookieSession = require('cookie-session')
+var cookieSession = require('cookie-session');
 app.use(cookieSession({
   name: 'session',
   keys: ['key1'],
 }))
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
-
-const getLoggedInUser = function (req, res) {
-  return users[req.session.userId];
-}
 
 const users = {
   "userRandomID": {
@@ -65,7 +66,7 @@ app.get("/set", (req, res) => {
 app.get('/urls', (req, res) => {
   const user = getLoggedInUser(req);
   if (user) {
-    let templateVars = { urls: urlDatabase, user: user };
+    let templateVars = { urls: urlsForUser(user, urlDatabase), user: user };
     res.render('urls_index', templateVars);
   } else {
     res.redirect('/login');
@@ -134,26 +135,6 @@ app.post('/urls/:shortURL/edit', (req, res) => {
   res.redirect('/urls');
 });
 
-function authenticateUser(email, password) {
-  for (let user in users) {
-    // if (users[user].email === email && users[user].password === password) {
-    if (users[user].email === email && bcrypt.compareSync(password, users[user].password)) {
-      console.log(user);
-      return users[user];
-    }
-  }
-}
-
-function existingUser(email) {
-  for (let user in users) {
-    if (users[user].email === email)
-      return true;
-  }
-  return false;
-}
-// console.log(existingUser('12345@yahoo.com'));
-// console.log(existingUser('user2@example.com'));
-
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user = authenticateUser(email, password);
@@ -168,8 +149,6 @@ app.post('/login', (req, res) => {
 app.post('/logout', (req, res) => {
   req.session = null;
   res.redirect('/login');
-  // res.cookie('userId', '');
-  // res.redirect('/urls');
 })
 
 app.post('/register', (req, res) => {
@@ -185,18 +164,11 @@ app.post('/register', (req, res) => {
     res.send('You are already registered. Please log in.');
     return;
   }
-  users[randomId] = { id: randomId, email: email, password: hashedPassword }; //bcrypt.hashSync(password, 10) };
+  users[randomId] = { id: randomId, email: email, password: hashedPassword };
   req.session.userId = randomId;
   res.redirect('/urls');
 })
 
-
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}, probably?`);
 });
-//Generates a string of six random alphanumeric characters
-function generateRandomString() {
-  let randomAlphNum = Math.random().toString(36).substring(6);
-  return randomAlphNum;
-}
