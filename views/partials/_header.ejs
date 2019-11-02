@@ -14,9 +14,9 @@
         <a class="nav-item nav-link" href="/urls/new" style="font-family: cursive;">Create New URL</a>
 
         <% if (user) { %>
-          <span> <%= user.email %> </span>
+          <span style="font-family: cursive; margin-left: 2em; margin-right: 2em"> <%= user.email %> </span>
           <form action="/logout" method="POST">
-            <button class="btn btn-info" style="border-color: black" type="submit">Log Out</a>
+            <button class="btn btn-info" style="border-color: black; font-family: cursive" type="submit">Log Out</a>
           </form>
         <% } else { %>
           <a
