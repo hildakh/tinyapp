@@ -15,14 +15,14 @@
     <% include partials/_header %>
 
     <main style="margin: 1em;">
-      <h3>Create TinyURL</h3>
+      <h3 style="font-family: cursive">Create TinyURL</h3>
       <!--The form tag has two important attributes: action and method. The action attribute tells the form which URL to submit to while the method attribute tells the form which HTTP method to use when submitting the form-->
       <form class="form-inline" action="/urls" method="POST">
         <div class="form-group mb-2">
-          <label for="longURL">Enter a URL:</label>
+          <label for="longURL" style="font-family: cursive">Enter a URL:</label>
           <!--The input tag has an important attribute as well: name. This attribute identifies the data we are sending; in this case, it adds the key longURL to the data we'll be sending in the body of our POST request-->
-          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em; font-family: cursive">
+          <button type="submit" class="btn btn-primary" style="font-family: cursive">Submit</button>
         </div>
       </form>
     </main>
