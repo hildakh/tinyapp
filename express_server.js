@@ -5,11 +5,11 @@ const PORT = 8080;  //default port apparently
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 app.use(bodyParser.urlencoded({ extended: true }));
-var cookieSession = require('cookie-session');
+let cookieSession = require('cookie-session');
 app.use(cookieSession({
   name: 'session',
   keys: ['key1'],
-}))
+}));
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
 const users = {
@@ -23,7 +23,7 @@ const users = {
     email: "user2@example.com",
     password: bcrypt.hashSync("123", 10)
   }
-}
+};
 
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userId: "aJ48lW" },
@@ -41,7 +41,7 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
-  const user = getLoggedInUser(req);
+  const user = getLoggedInUser(req, users);
   if (user) {
     let templateVars = { user };
     res.render('urls_new', templateVars);
@@ -87,7 +87,7 @@ app.get('/register', (req, res) => {
     res.redirect('/urls');
   } else {
     let templateVars = { user };
-    res.render('register', templateVars)
+    res.render('register', templateVars);
   }
 });
 
@@ -98,7 +98,7 @@ app.get('/login', (req, res) => {
     res.redirect('/urls');
   } else {
     let templateVars = { user };
-    res.render('login', templateVars)
+    res.render('login', templateVars);
   }
 });
 
@@ -106,7 +106,7 @@ app.get('/login', (req, res) => {
 
 app.post('/urls', (req, res) => {
   let longUrl = req.body.longURL;
-  if (!longUrl.includes('http')) {     //making sure that the address includes http at the beginning 
+  if (!longUrl.includes('http')) {     //making sure that the address includes http at the beginning
     longUrl = 'http://' + longUrl;
   }
   let shortURL = generateRandomString();
@@ -124,7 +124,7 @@ app.post('/urls/:shortURL/edit', (req, res) => {
   // console.log(urlDatabase);      //it was to check if the new longurl was added to the database
   const shortURL = req.params.shortURL;
   let longURL = req.body.url;
-  if (!longURL.includes('http')) {     //making sure that the address includes http at the beginning 
+  if (!longURL.includes('http')) {     //making sure that the address includes http at the beginning
     longURL = 'http://' + longURL;
   }
   urlDatabase[shortURL].longURL = longURL;
@@ -133,7 +133,7 @@ app.post('/urls/:shortURL/edit', (req, res) => {
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  let user = authenticateUser(email, password);
+  let user = authenticateUser(email, password, users);
   if (user) {
     req.session.userId = user.id;
     res.redirect('/urls');
@@ -145,7 +145,7 @@ app.post('/login', (req, res) => {
 app.post('/logout', (req, res) => {
   req.session = null;
   res.redirect('/login');
-})
+});
 
 app.post('/register', (req, res) => {
   let randomId = generateRandomString();
@@ -163,7 +163,7 @@ app.post('/register', (req, res) => {
   users[randomId] = { id: randomId, email: email, password: hashedPassword };
   req.session.userId = randomId;
   res.redirect('/urls');
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}, probably?`);
