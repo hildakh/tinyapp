@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');                       //Required for authenticateUser function
 
-const getUserByEmail = function(email, database) {      //Looks up the user's email in the users database and returns the user's random
-  for (const key in database) {                          //ID or undefined
+const getUserByEmail = function(email, database) {
+  //Looks up the user's email in the users database and returns the user's random ID or undefined
+  for (const key in database) {
     if (email === database[key].email) {
       return key;
     } return undefined;
@@ -9,7 +10,7 @@ const getUserByEmail = function(email, database) {      //Looks up the user's em
 };
 
 const getLoggedInUser = function(req, users) {          //Finds the random ID of the user who has logged in to later access
-  return users[req.session.userId];                     // the database based on the id and present the user with their own short and
+  return users[req.session.userId];          // the database based on the id and present the user with their own short and
 };                                                      // urls
 
 const urlsForUser = function(userId, urlDatabase) {
