@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
     integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    
+
   <title>TinyApp</title>
 </head>
 
@@ -35,16 +35,18 @@
           <td style="font-family: cursive"><%= url %></td>
           <td style="font-family: cursive"><%= urls[url].longURL %> </td>
           <td>
-              <a href="/urls/<%= url %>">
+            <a href="/urls/<%= url %>">
               <!-- The code from compass was only for one short url. The one we have added as url will extend to all short urls created-->
-              <button type="button" class="btn btn-warning" style="border-color: black; font-family: cursive">Edit</button>
-            </form>
+              <button type="button" class="btn btn-warning"
+                style="border-color: black; font-family: cursive">Edit</button>
+              </form>
           </td>
           <td>
-          
-              <form method="POST" action="/urls/<%= url %>/delete">
-              <button type="submit" class="btn  btn-danger" style="border-color: black; font-family: cursive">Delete</button>
-            </a>
+
+            <form method="POST" action="/urls/<%= url %>/delete">
+              <button type="submit" class="btn  btn-danger"
+                style="border-color: black; font-family: cursive">Delete</button>
+              </a>
 
           </td>
         </tr>
