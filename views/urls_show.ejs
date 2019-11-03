@@ -15,17 +15,18 @@
   <div class="card text-center">
     <div class="card-header"></div>
     <div class="card-body">
-      <h5 class="card-title" style="font-family: cursive">Tiny URL for:   <%= longURL %></h5>
+      <h5 class="card-title" style="font-family: cursive">Tiny URL for: <%= longURL %></h5>
       <p class="card-text" style="font-family: cursive">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
       <!-- skipped the part on including a link for creating a new url-->
       <div>
-          <h4 style="font-family: cursive">Edit</h4>
+        <h4 style="font-family: cursive">Edit</h4>
         <form method="POST" action="/urls/<%= shortURL %>/edit">
           <label for="newur" style="font-family: cursive">New URL:</label>
-          <input type="text" name="url"> <!--name for the new long url-->
+          <input type="text" name="url">
+          <!--name for the new long url-->
           <button type="submit" style="font-family: cursive">Submit</button>
         </form>
-        
+
       </div>
     </div>
     <div class="card-footer text-muted"></div>
