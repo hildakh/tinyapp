@@ -22,3 +22,11 @@ describe('getUserByEmail', function() {
     return user == expectedOutput;// Write your assert statement here
   });
 });
+
+describe('getUserByEmail', function () {
+  it('should return undefined if the email is not found in the usersDatabase', function () {
+    const user = getUserByEmail("hildakh@lhl.com", testUsers)
+    const expectedOutput = undefined;
+    return user == expectedOutput;// Write your assert statement here
+  });
+});
