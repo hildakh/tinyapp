@@ -10,9 +10,11 @@ app.use(cookieSession({
   name: 'session',
   keys: ['key1'],
 }));
+
 app.set('view engine', 'ejs'); //setting ejs as the view engine after installing ejs
 
-const users = {
+
+const users = {               //Users database
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
@@ -25,15 +27,22 @@ const users = {
   }
 };
 
-const urlDatabase = {
+const urlDatabase = {                                                     //each key is the short url created by the user in the userId
   b6UTxQ: { longURL: "https://www.tsn.ca", userId: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userId: "aJ48lW" }
 };
 
 // GET ROUTES
 
-app.get("/", (req, res) => {
-  res.send('Hello!');
+app.get("/", (req, res) => {  
+  const user = getLoggedInUser(req, users);
+  if (user) {
+    let templateVars = { urls: urlsForUser(user.id, urlDatabase), user: user };
+    res.render('urls_index', templateVars);
+  } else {
+    res.redirect('/login');
+  }                                          
+  // res.send('Hello!');
 });
 
 app.get("/urls.json", (req, res) => {
