@@ -3,6 +3,7 @@ const urlsForUser = require('./helpers');
 const authenticateUser = require('./helpers');
 const existingUser = require('./helpers');
 const generateRandomString = require('./helpers');
+const getUserByEmail = require('./helpers');
 const express = require('express');
 const app = express();
 const PORT = 8080;  //default port apparently
