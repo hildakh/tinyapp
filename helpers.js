@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');     //Required for authenticateUser function
+const bcrypt = require('bcrypt');                       //Required for authenticateUser function
 
 const getUserByEmail = function(email, database) {      //Looks up the user's email in the users database and returns the user's random
-for (const key in database) {                          //ID or undefined 
+  for (const key in database) {                          //ID or undefined
     if (email === database[key].email) {
       return key;
     } return undefined;
@@ -9,7 +9,7 @@ for (const key in database) {                          //ID or undefined
 };
 
 const getLoggedInUser = function(req, users) {          //Finds the random ID of the user who has logged in to later access
-  return users[req.session.userId];                     // the database based on the id and present the user with their own short and 
+  return users[req.session.userId];                     // the database based on the id and present the user with their own short and
 };                                                      // urls
 
 const urlsForUser = function(userId, urlDatabase) {
@@ -37,18 +37,18 @@ const authenticateUser = function(email, password, users) {
   }
 };
 
-const existingUser = function (email, users) {
+const existingUser = function(email, users) {
   for (let user in users) {
     if (users[user].email === email)
       return true;
   }
   return false;
-}
+};
 
 //Generates a string of six random alphanumeric characters
-const generateRandomString = function () {
+const generateRandomString = function() {
   let randomAlphNum = Math.random().toString(36).substring(6);
   return randomAlphNum;
-}
+};
 
 module.exports = { getUserByEmail, getLoggedInUser, urlsForUser, authenticateUser, existingUser, generateRandomString };
