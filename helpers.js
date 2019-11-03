@@ -6,7 +6,7 @@ const getUserByEmail = function(email, database) {
   }
 };
 
-const getLoggedInUser = function (req, res) {
+const getLoggedInUser = function (req, users) {
   return users[req.session.userId];
 };
 
@@ -35,7 +35,7 @@ function authenticateUser(email, password) {
   }
 };
 
-function existingUser(email) {
+function existingUser(email, users) {
   for (let user in users) {
     if (users[user].email === email)
       return true;
