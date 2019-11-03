@@ -10,25 +10,27 @@
 
 <body>
 
-    <% include partials/_header %>
+  <% include partials/_header %>
   <div class="card text-center">
-  
- 
-        <p style="font-size: 2em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Login</p>
-  
+
+
+    <p style="font-size: 2em; font-family: cursive; display: flex; flex: 1; margin-left: 0.5em;">Login</p>
+
   </div>
   <div style="font-family: cursive;">
-  
+
     <form method="POST" action="/login">
       <label for="email" style="font-size: 1.3em; margin-left: 0.5em"> Email Address
         <input type="email" id="email" name="email" required>
       </label>
-<p>
-      <label for="password" style="font-size: 1.3em; margin-left: 0.5em">Password      <!--The data in the for and id should match -->
-        <input type="password" id="password" name="password" required style="margin-left: 2em;">
-      </label>
-    </p>
-      <button type="submit" class="btn btn-info" style="font-family: cursive; margin-left: 9em; font-size: 1.5em">Log In</button>  <!-- the button type should be submit-->
+      <p>
+        <label for="password" style="font-size: 1.3em; margin-left: 0.5em">Password
+          <!--The data in the for and id should match -->
+          <input type="password" id="password" name="password" required style="margin-left: 2em;">
+        </label>
+      </p>
+      <button type="submit" class="btn btn-info" style="font-family: cursive; margin-left: 9em; font-size: 1.5em">Log
+        In</button> <!-- the button type should be submit-->
     </form>
   </div>
 
