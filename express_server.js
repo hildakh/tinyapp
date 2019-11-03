@@ -1,9 +1,4 @@
-const getLoggedInUser = require('./helpers');
-const urlsForUser = require('./helpers');
-const authenticateUser = require('./helpers');
-const existingUser = require('./helpers');
-const generateRandomString = require('./helpers');
-const getUserByEmail = require('./helpers');
+const { getUserByEmail, getLoggedInUser, urlsForUser, authenticateUser, existingUser, generateRandomString } = require('./helpers');
 const express = require('express');
 const app = express();
 const PORT = 8080;  //default port apparently
@@ -65,9 +60,9 @@ app.get("/set", (req, res) => {
 });
 
 app.get('/urls', (req, res) => {
-  const user = getLoggedInUser(req);
+  const user = getLoggedInUser(req, users);
   if (user) {
-    let templateVars = { urls: urlsForUser(user, urlDatabase), user: user };
+    let templateVars = { urls: urlsForUser(user.id, urlDatabase), user: user };
     res.render('urls_index', templateVars);
   } else {
     res.redirect('/login');
@@ -161,7 +156,7 @@ app.post('/register', (req, res) => {
     res.send(404);
     return;
   }
-  if (existingUser(email)) {
+  if (existingUser(email, users)) {
     res.send('You are already registered. Please log in.');
     return;
   }
