@@ -19,7 +19,7 @@ describe('getUserByEmail', function() {
     const user = getUserByEmail('user@example.com', testUsers);
     const expectedOutput = "userRandomID";
     console.log(user, expectedOutput);
-    assert(user, expectedOutput);// Write your assert statement here
+    assert.equal(user, expectedOutput);// Write your assert statement here
   });
 });
 
@@ -28,6 +28,6 @@ describe('getUserByEmail', function() {
     const user = getUserByEmail('hildakhl@lhl.com', testUsers);
     const expectedOutput = undefined;
     console.log(user, expectedOutput);
-    assert(user, expectedOutput);// Write your assert statement here
+    assert.equal(user, expectedOutput);// Write your assert statement here
   });
 });
