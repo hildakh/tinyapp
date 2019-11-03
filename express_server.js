@@ -34,34 +34,38 @@ const urlDatabase = {                                                     //each
 
 // GET ROUTES
 
-app.get("/", (req, res) => {  
-  const user = getLoggedInUser(req, users);
+app.get("/", (req, res) => {                      
+  const user = getLoggedInUser(req, users);       // find the user in the database to direct him to the urlspage
   if (user) {
     let templateVars = { urls: urlsForUser(user.id, urlDatabase), user: user };
     res.render('urls_index', templateVars);
   } else {
-    res.redirect('/login');
+    res.redirect('/login');                        //redirects the users to the login page if not logged in yet or to the
   }                                          
-  // res.send('Hello!');
+  // res.send('Hello!');                           //initially this was the message on this page
 });
 
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
-app.get('/urls/new', (req, res) => {
-  const user = getLoggedInUser(req, users);
+app.get('/urls/new', (req, res) => {              //allows only logged in users to create a new url
+  const user = getLoggedInUser(req, users);       
   if (user) {
     let templateVars = { user };
     res.render('urls_new', templateVars);
   } else {
-    res.redirect('/login');
+    res.redirect('/login');                     //otherwise the user will be redirected to the login page
   }
 });
 
-app.get("/hello", (req, res) => {
+/* Initially was added to test the basic syntax of routes and how to send a message to users
+
+app.get("/hello", (req, res) => {           
   res.send('<html><body>Hello <b>World</b></body></html>\n');
 });
+
+*/
 
 app.get("/set", (req, res) => {
   const a = 1;
